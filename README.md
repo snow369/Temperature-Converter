@@ -14,4 +14,5 @@ Experience the magic of responsive design as the web app adapts to your devices,
 
 Clone the repository and run 'Temp_conv.html' to view the homepage, contribute, and make temperature conversion a breeze! 🌞❄️
 
-# Output
+# Output ✨
+Here are the Screenshots of my Netflix-Homepage website :) 
