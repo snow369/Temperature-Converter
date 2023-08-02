@@ -50,43 +50,80 @@ button:hover {
     background-color: #116690;
 }
 
+.result-container {
+        margin-top: 10px;
+     }
+
+.result {
+        display: inline-block;
+        width: calc(100% / 3);
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+.result strong {
+         display: block;
+        margin-bottom: 5px;
+    }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Temperature Converter</h1>
-        <label for="celsius">Celsius (°C):</label>
-        <input type="number" id="celsius" placeholder="Enter Celsius temperature" onchange="convertTemperatures()">
+        <label for="temperature">Temperature:</label>
+        <input type="number" id="temperature" placeholder="Enter temperature">
 
-        <label for="fahrenheit">Fahrenheit (°F):</label>
-        <input type="number" id="fahrenheit" placeholder="Enter Fahrenheit temperature" onchange="convertTemperatures()">
+        <label for="unit">Select Unit:</label>
+        <select id="unit">
+            <option value="celsius">Celsius (°C)</option>
+            <option value="fahrenheit">Fahrenheit (°F)</option>
+            <option value="kelvin">Kelvin (K)</option>
+        </select>
 
-        <label for="kelvin">Kelvin (K):</label>
-        <input type="number" id="kelvin" placeholder="Enter Kelvin temperature" onchange="convertTemperatures()">
+        <button onclick="convertTemperature()">Convert</button>
 
-        <button onclick="convertTemperatures()">Convert</button>
+        <div class="result-container">
+            <div class="result" id="celsius-result">
+                <strong>Celsius:</strong> <span></span> °C
+            </div>
+            <div class="result" id="fahrenheit-result">
+                <strong>Fahrenheit:</strong> <span></span> °F
+            </div>
+            <div class="result" id="kelvin-result">
+                <strong>Kelvin:</strong> <span></span> K
+            </div>
+        </div>
     </div>
 
     <script>
-        function convertTemperatures() {
-            let celsiusInput = document.getElementById('celsius');
-            let fahrenheitInput = document.getElementById('fahrenheit');
-            let kelvinInput = document.getElementById('kelvin');
+        function convertTemperature() {
+            let temperatureInput = document.getElementById('temperature');
+            let unitSelect = document.getElementById('unit');
 
-            let celsius = parseFloat(celsiusInput.value);
-            let fahrenheit = parseFloat(fahrenheitInput.value);
-            let kelvin = parseFloat(kelvinInput.value);
+            let temperature = parseFloat(temperatureInput.value);
+            let unit = unitSelect.value;
+            let celsius, fahrenheit, kelvin;
 
-            if (!isNaN(celsius)) {
-                fahrenheitInput.value = (celsius * 9/5 + 32).toFixed(2);
-                kelvinInput.value = (celsius + 273.15).toFixed(2);
-            } else if (!isNaN(fahrenheit)) {
-                celsiusInput.value = ((fahrenheit - 32) * 5/9).toFixed(2);
-                kelvinInput.value = (((fahrenheit - 32) * 5/9) + 273.15).toFixed(2);
-            } else if (!isNaN(kelvin)) {
-                celsiusInput.value = (kelvin - 273.15).toFixed(2);
-                fahrenheitInput.value = ((kelvin - 273.15) * 9/5 + 32).toFixed(2);
+            if (unit === 'celsius') {
+                celsius = temperature;
+                fahrenheit = (celsius * 9/5 + 32);
+                kelvin = (celsius + 273.15);
+            } else if (unit === 'fahrenheit') {
+                fahrenheit = temperature;
+                celsius = ((fahrenheit - 32) * 5/9);
+                kelvin = (((fahrenheit - 32) * 5/9) + 273.15);
+            } else if (unit === 'kelvin') {
+                kelvin = temperature;
+                celsius = (kelvin - 273.15);
+                fahrenheit = ((kelvin - 273.15) * 9/5 + 32);
+            } else {
+                celsius = fahrenheit = kelvin = NaN;
             }
+
+            document.getElementById('celsius-result').querySelector('span').innerText = isNaN(celsius) ? '' : celsius.toFixed(2);
+            document.getElementById('fahrenheit-result').querySelector('span').innerText = isNaN(fahrenheit) ? '' : fahrenheit.toFixed(2);
+            document.getElementById('kelvin-result').querySelector('span').innerText = isNaN(kelvin) ? '' : kelvin.toFixed(2);
         }
     </script>
 </body>
